@@ -1,0 +1,20 @@
+#navbar {
+  display: flex;
+  /* flex-direction: column; */
+  position: fixed;
+  width: fit-content;
+  bottom: 0;
+  border-radius: 6px 6px 0 0;
+  background: white;
+  filter: drop-shadow(2px 2px 2px);
+  list-style: none;
+  padding: 15px;
+  gap: 10px;
+}
+
+#navbar li:hover {
+  color: darkgray;
+  cursor: pointer;
+  margin: 0;
+  padding: 0;
+}
