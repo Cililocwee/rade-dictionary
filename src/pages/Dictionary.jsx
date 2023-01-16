@@ -1,32 +1,75 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import ResultBox from "../components/ResultBox";
 import { words } from "../words/words";
+import "./pages.css";
+import { db } from "../firebase";
+import { collection, getDoc, getDocs } from "firebase/firestore";
 
 export default function Dictionary() {
+  const [wordQueue, setWordQueue] = useState([,]);
+  const [searchWord, setSearchWord] = useState("");
+  const [testWord, setTestWord] = useState([]);
+
+  async function fetchDictionaryDatabase() {
+    await getDocs(collection(db, "dictionary")).then((querySnapshot) => {
+      const newData = querySnapshot.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }));
+      setTestWord(newData);
+      console.log(newData);
+    });
+  }
+  useEffect(() => {
+    fetchDictionaryDatabase();
+  }, []);
+
+  function handleClickEnglish() {
+    // console.log(searchWord);
+    let queuedUp = [];
+    words.forEach((spot) => {
+      if (spot.word[1].includes(searchWord)) {
+        queuedUp.push(spot);
+      }
+      setWordQueue(queuedUp);
+    });
+  }
+
+  function handleClickRade() {
+    console.log(searchWord);
+    let queuedUp = [];
+    words.forEach((spot) => {
+      if (spot.word[0].includes(searchWord)) {
+        queuedUp.push(spot);
+      }
+      setWordQueue(queuedUp);
+    });
+  }
+
+  function handleChange(e) {
+    // console.log(e.target.value);
+    setSearchWord(e.target.value);
+  }
+
   return (
     <div id="dictionary" className="fullpage">
       <div id="searchbox">
-        <div id="searchbox-buttons">
-          <button>Rade to English</button>
-          <button>English to Rade</button>
-        </div>
-        <input type="text" placeholder="Search..." />
-        <button>Search</button>
+        <input
+          id="searchinput"
+          type="text"
+          placeholder="Search..."
+          onChange={handleChange}
+        />
+        <button onClick={handleClickEnglish}>Search English</button>
+        <button onClick={handleClickRade}>Search Rade</button>
       </div>
 
-      {/* This will be mapped dynamically  (will be a component)*/}
-
-      <div className="resultbox">
-        <div className="result-searchword">QUERY WORD</div>
-        <div className="result-additional">ADDITIONAL INFO</div>
-        <div className="result-target">RESULT TARGET</div>
-      </div>
-
-      {words.map((heading) => (
-        <div className="resultbox">
-          <div className="result-searchword">{heading.word[0]}</div>
-          <div className="result-additional">{heading.additional_info[1]}</div>
-          <div className="result-target">{heading.word[1]}</div>
-        </div>
+      {wordQueue.map((heading) => (
+        <ResultBox
+          searchWord={heading.word[0]}
+          additionalInfo={heading.additional_info}
+          resultTarget={heading.word[1]}
+        />
       ))}
     </div>
   );
