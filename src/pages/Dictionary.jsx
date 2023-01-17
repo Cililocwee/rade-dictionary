@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from "react";
 import ResultBox from "../components/ResultBox";
-import { words } from "../words/words";
 import "./pages.css";
 import { db } from "../firebase";
 import { collection, getDoc, getDocs } from "firebase/firestore";
+import { uuidv4 } from "@firebase/util";
 
 export default function Dictionary() {
   const [wordQueue, setWordQueue] = useState([,]);
   const [searchWord, setSearchWord] = useState("");
   const [testWord, setTestWord] = useState([]);
 
+  // TODO This is not efficient and needs a new call on search
   async function fetchDictionaryDatabase() {
     await getDocs(collection(db, "dictionary")).then((querySnapshot) => {
       const newData = querySnapshot.docs.map((doc) => ({
@@ -20,34 +21,33 @@ export default function Dictionary() {
       console.log(newData);
     });
   }
+
   useEffect(() => {
     fetchDictionaryDatabase();
   }, []);
 
   function handleClickEnglish() {
-    // console.log(searchWord);
     let queuedUp = [];
-    words.forEach((spot) => {
+    testWord.forEach((spot) => {
       if (spot.word[1].includes(searchWord)) {
         queuedUp.push(spot);
       }
-      setWordQueue(queuedUp);
     });
+    setWordQueue(queuedUp);
   }
 
   function handleClickRade() {
     console.log(searchWord);
     let queuedUp = [];
-    words.forEach((spot) => {
+    testWord.forEach((spot) => {
       if (spot.word[0].includes(searchWord)) {
         queuedUp.push(spot);
       }
-      setWordQueue(queuedUp);
     });
+    setWordQueue(queuedUp);
   }
 
   function handleChange(e) {
-    // console.log(e.target.value);
     setSearchWord(e.target.value);
   }
 
@@ -69,6 +69,7 @@ export default function Dictionary() {
           searchWord={heading.word[0]}
           additionalInfo={heading.additional_info}
           resultTarget={heading.word[1]}
+          key={uuidv4()}
         />
       ))}
     </div>

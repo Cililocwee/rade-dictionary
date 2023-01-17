@@ -7,6 +7,7 @@ import Home from "./pages/Home";
 import Dictionary from "./pages/Dictionary";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
+import DictionaryUpload from "./DictionaryUpload";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="/dictionary" element={<Dictionary />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/upload" element={<DictionaryUpload />} />
       </Routes>
     </div>
   );
