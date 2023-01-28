@@ -3,6 +3,7 @@ import { uuidv4 } from "@firebase/util";
 import { doc, setDoc } from "firebase/firestore";
 import { db } from "./firebase";
 import SpreadsheetParser from "./components/SpreadsheetParser";
+import LogIn from "./components/LogIn";
 
 export default function DictionaryUpload({ dictionary }) {
   const [additionalInfo, setAdditionalInfo] = useState("");
@@ -17,25 +18,34 @@ export default function DictionaryUpload({ dictionary }) {
     setNewRadeWord(e.target.value);
   }
 
-  // ** Unused?
-  function checkForRedundancy(rade, english) {
-    dictionary.forEach((entry) => {
-      if (entry.word[1] === english.toLowerCase()) {
-        return true;
-      }
-    });
-
-    dictionary.forEach((entry) => {
-      if (entry.word[0] === rade.toLowerCase()) {
-        return true;
-      }
-    });
-
-    return false;
-  }
-
   function handleInformation(e) {
     setAdditionalInfo(e.target.value);
+  }
+
+  async function testPush() {
+    let flag = true;
+
+    dictionary.forEach((entry) => {
+      if (entry.word[1] === newEnglishWord.toLowerCase()) {
+        if (entry.word[0] === newRadeWord.toLowerCase()) {
+          console.error("Word pair already exists");
+
+          flag = false;
+        }
+      }
+    });
+
+    let id = uuidv4();
+    await setDoc(doc(db, "test_db", id), {
+      additional_info: additionalInfo,
+      word: [newRadeWord, newEnglishWord],
+    }).then(() => {
+      console.log("Upload success: TEST");
+    });
+
+    setNewEnglishWord("");
+    setNewRadeWord("");
+    setAdditionalInfo("");
   }
 
   async function pushDict() {
@@ -52,6 +62,7 @@ export default function DictionaryUpload({ dictionary }) {
     });
 
     let id = uuidv4();
+
     if (flag) {
       await setDoc(doc(db, "dictionary", id), {
         additional_info: additionalInfo,
@@ -77,11 +88,14 @@ export default function DictionaryUpload({ dictionary }) {
         return;
       }
 
+      // testPush();
       pushDict();
     }
   }
+
   return (
     <main id="upload">
+      <LogIn />
       <label htmlFor="english">English word: </label>
       <input
         className="newinput"
@@ -109,11 +123,7 @@ export default function DictionaryUpload({ dictionary }) {
         value={additionalInfo}
         onKeyDown={handleEnter}
       />
-      <button
-        onClick={() => pushDict(additionalInfo, [newRadeWord, newEnglishWord])}
-      >
-        Submit
-      </button>
+      <button onClick={pushDict}>Submit</button>
       <br />
       <br />
       <br />
