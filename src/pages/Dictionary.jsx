@@ -26,10 +26,12 @@ export default function Dictionary() {
     fetchDictionaryDatabase();
   }, []);
 
+  // TODO Can't search for I
+  // TODO Returns repeat entries (redundant)
   function handleDispatchSearch() {
     let englishMatches = [];
     let radeMatches = [];
-    if (searchWord.length < 2) {
+    if (searchWord.length === 0) {
       console.error("Search string too short");
       return;
     }
