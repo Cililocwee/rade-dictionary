@@ -3,7 +3,7 @@ import "./pages.css";
 
 export default function Home() {
   return (
-    <div id="homepage" className="fullpage">
+    <div id="homepage" className="page">
       <h1>Welcome</h1>
       <p>
         This is the Online Rade Dictionary, a site dedicated to the preservation

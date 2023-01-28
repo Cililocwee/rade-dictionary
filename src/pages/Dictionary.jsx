@@ -4,6 +4,7 @@ import "./pages.css";
 import { db } from "../firebase";
 import { collection, getDoc, getDocs } from "firebase/firestore";
 import { uuidv4 } from "@firebase/util";
+import TableHead from "../components/TableHead";
 
 export default function Dictionary() {
   const [matches, setMatches] = useState([]);
@@ -62,7 +63,7 @@ export default function Dictionary() {
   }
 
   return (
-    <div id="dictionary" className="fullpage">
+    <div id="dictionary" className="page">
       <div id="searchbox">
         <input
           id="searchinput"
@@ -74,7 +75,7 @@ export default function Dictionary() {
         />
         <button onClick={handleDispatchSearch}>Search</button>
       </div>
-
+      {matches.length > 0 ? <TableHead /> : <></>}
       {matches.map((heading) => (
         <ResultBox
           searchWord={heading.word[0]}

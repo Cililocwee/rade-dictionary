@@ -2,7 +2,7 @@ import React from "react";
 
 export default function About() {
   return (
-    <div id="about" className="fullpage">
+    <div id="about" className="page">
       <h1>About</h1>
       <p>
         The Rade language is a lorem ipsum language spoken by more than dolor et
