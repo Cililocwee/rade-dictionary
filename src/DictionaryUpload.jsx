@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import { uuidv4 } from "@firebase/util";
 import { doc, setDoc } from "firebase/firestore";
 import { db } from "./firebase";
+import SpreadsheetParser from "./components/SpreadsheetParser";
 
-export default function DictionaryUpload() {
+export default function DictionaryUpload({ dictionary }) {
   const [additionalInfo, setAdditionalInfo] = useState("");
   const [newEnglishWord, setNewEnglishWord] = useState("");
   const [newRadeWord, setNewRadeWord] = useState("");
@@ -11,25 +12,57 @@ export default function DictionaryUpload() {
   function handleEnglish(e) {
     setNewEnglishWord(e.target.value);
   }
+
   function handleRade(e) {
     setNewRadeWord(e.target.value);
   }
+
+  function checkForRedundancy(rade, english) {
+    dictionary.forEach((entry) => {
+      if (entry.word[1] === english.toLowerCase()) {
+        return true;
+      }
+    });
+
+    dictionary.forEach((entry) => {
+      if (entry.word[0] === rade.toLowerCase()) {
+        return true;
+      }
+    });
+
+    return false;
+  }
+
   function handleInformation(e) {
     setAdditionalInfo(e.target.value);
   }
 
   async function pushDict() {
-    let id = uuidv4();
-    await setDoc(doc(db, "dictionary", id), {
-      additional_info: additionalInfo,
-      word: [newRadeWord, newEnglishWord],
-    }).then((data) => {
-      console.log("Upload success: " + data);
+    let flag = true;
+
+    dictionary.forEach((entry) => {
+      if (entry.word[1] === newEnglishWord.toLowerCase()) {
+        if (entry.word[0] === newRadeWord.toLowerCase()) {
+          console.error("Word pair already exists");
+
+          flag = false;
+        }
+      }
     });
 
-    setNewEnglishWord("");
-    setNewRadeWord("");
-    setAdditionalInfo("");
+    let id = uuidv4();
+    if (flag) {
+      await setDoc(doc(db, "dictionary", id), {
+        additional_info: additionalInfo,
+        word: [newRadeWord, newEnglishWord],
+      }).then((data) => {
+        console.log("Upload success: " + data);
+      });
+
+      setNewEnglishWord("");
+      setNewRadeWord("");
+      setAdditionalInfo("");
+    }
   }
 
   function handleEnter(e) {
@@ -80,6 +113,11 @@ export default function DictionaryUpload() {
       >
         Submit
       </button>
+      <br />
+      <br />
+      <br />
+      <br />
+      <SpreadsheetParser />
     </main>
   );
 }

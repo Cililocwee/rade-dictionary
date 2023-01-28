@@ -6,26 +6,9 @@ import { collection, getDoc, getDocs } from "firebase/firestore";
 import { uuidv4 } from "@firebase/util";
 import TableHead from "../components/TableHead";
 
-export default function Dictionary() {
+export default function Dictionary({ dictionary }) {
   const [matches, setMatches] = useState([]);
   const [searchWord, setSearchWord] = useState("");
-  const [dictionary, setDictionary] = useState([]);
-
-  // TODO This is not efficient and needs a new call on search
-  async function fetchDictionaryDatabase() {
-    await getDocs(collection(db, "dictionary")).then((querySnapshot) => {
-      const newData = querySnapshot.docs.map((doc) => ({
-        ...doc.data(),
-        id: doc.id,
-      }));
-      setDictionary(newData);
-      console.log(newData);
-    });
-  }
-
-  useEffect(() => {
-    fetchDictionaryDatabase();
-  }, []);
 
   // TODO Can't search for I
   // TODO Returns repeat entries (redundant)
