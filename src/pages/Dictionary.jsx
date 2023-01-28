@@ -29,7 +29,7 @@ export default function Dictionary() {
   function handleClickEnglish() {
     let queuedUp = [];
     testWord.forEach((spot) => {
-      if (spot.word[1].includes(searchWord)) {
+      if (spot.word[1].includes(searchWord.toLowerCase())) {
         queuedUp.push(spot);
       }
     });
@@ -40,7 +40,7 @@ export default function Dictionary() {
     console.log(searchWord);
     let queuedUp = [];
     testWord.forEach((spot) => {
-      if (spot.word[0].includes(searchWord)) {
+      if (spot.word[0].includes(searchWord.toLowerCase())) {
         queuedUp.push(spot);
       }
     });
