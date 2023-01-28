@@ -6,9 +6,9 @@ import { collection, getDoc, getDocs } from "firebase/firestore";
 import { uuidv4 } from "@firebase/util";
 
 export default function Dictionary() {
-  const [wordQueue, setWordQueue] = useState([,]);
+  const [matches, setMatches] = useState([]);
   const [searchWord, setSearchWord] = useState("");
-  const [testWord, setTestWord] = useState([]);
+  const [dictionary, setDictionary] = useState([]);
 
   // TODO This is not efficient and needs a new call on search
   async function fetchDictionaryDatabase() {
@@ -17,7 +17,7 @@ export default function Dictionary() {
         ...doc.data(),
         id: doc.id,
       }));
-      setTestWord(newData);
+      setDictionary(newData);
       console.log(newData);
     });
   }
@@ -26,29 +26,37 @@ export default function Dictionary() {
     fetchDictionaryDatabase();
   }, []);
 
-  function handleClickEnglish() {
-    let queuedUp = [];
-    testWord.forEach((spot) => {
-      if (spot.word[1].includes(searchWord.toLowerCase())) {
-        queuedUp.push(spot);
+  function handleDispatchSearch() {
+    let englishMatches = [];
+    let radeMatches = [];
+    if (searchWord.length < 2) {
+      console.error("Search string too short");
+      return;
+    }
+    dictionary.forEach((entry) => {
+      if (entry.word[1].includes(searchWord.toLowerCase())) {
+        englishMatches.push(entry);
       }
     });
-    setWordQueue(queuedUp);
-  }
 
-  function handleClickRade() {
-    console.log(searchWord);
-    let queuedUp = [];
-    testWord.forEach((spot) => {
-      if (spot.word[0].includes(searchWord.toLowerCase())) {
-        queuedUp.push(spot);
+    dictionary.forEach((entry) => {
+      if (entry.word[0].includes(searchWord.toLowerCase())) {
+        radeMatches.push(entry);
       }
     });
-    setWordQueue(queuedUp);
+
+    setMatches([...englishMatches, ...radeMatches]);
+    setSearchWord("");
   }
 
   function handleChange(e) {
     setSearchWord(e.target.value);
+  }
+
+  function commenceSearch(e) {
+    if (e.key === "Enter") {
+      handleDispatchSearch();
+    }
   }
 
   return (
@@ -59,12 +67,13 @@ export default function Dictionary() {
           type="text"
           placeholder="Search..."
           onChange={handleChange}
+          value={searchWord}
+          onKeyDown={commenceSearch}
         />
-        <button onClick={handleClickEnglish}>Search English</button>
-        <button onClick={handleClickRade}>Search Rade</button>
+        <button onClick={handleDispatchSearch}>Search</button>
       </div>
 
-      {wordQueue.map((heading) => (
+      {matches.map((heading) => (
         <ResultBox
           searchWord={heading.word[0]}
           additionalInfo={heading.additional_info}
