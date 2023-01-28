@@ -22,12 +22,13 @@ function App() {
         id: doc.id,
       }));
       setDictionary(newData);
-      console.log(newData);
+      // console.log(newData);
     });
   }
 
   useEffect(() => {
     fetchDictionaryDatabase();
+    console.log("Fetched");
   }, []);
 
   return (

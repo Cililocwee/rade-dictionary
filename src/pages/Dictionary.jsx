@@ -1,8 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import ResultBox from "../components/ResultBox";
 import "./pages.css";
-import { db } from "../firebase";
-import { collection, getDoc, getDocs } from "firebase/firestore";
 import { uuidv4 } from "@firebase/util";
 import TableHead from "../components/TableHead";
 
@@ -20,13 +18,13 @@ export default function Dictionary({ dictionary }) {
       return;
     }
     dictionary.forEach((entry) => {
-      if (entry.word[1].includes(searchWord.toLowerCase())) {
+      if (entry.word[1].toLowerCase().includes(searchWord.toLowerCase())) {
         englishMatches.push(entry);
       }
     });
 
     dictionary.forEach((entry) => {
-      if (entry.word[0].includes(searchWord.toLowerCase())) {
+      if (entry.word[0].toLowerCase().includes(searchWord.toLowerCase())) {
         radeMatches.push(entry);
       }
     });

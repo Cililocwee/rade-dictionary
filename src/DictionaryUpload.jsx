@@ -17,6 +17,7 @@ export default function DictionaryUpload({ dictionary }) {
     setNewRadeWord(e.target.value);
   }
 
+  // ** Unused?
   function checkForRedundancy(rade, english) {
     dictionary.forEach((entry) => {
       if (entry.word[1] === english.toLowerCase()) {
