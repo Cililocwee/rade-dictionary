@@ -8,6 +8,9 @@ import { db } from "../firebase";
 export default function SpreadsheetParser() {
   const [inputValue, setInputValue] = useState("");
 
+  //!! Currently uploading duplicates instead of replacing
+  //! the old keys because of the new ids
+  // TODO change upload id to maybe english+rade word?
   async function pushDict(arrLoad) {
     let id = uuidv4();
 
@@ -15,7 +18,7 @@ export default function SpreadsheetParser() {
       additional_info: arrLoad[2],
       word: [arrLoad[0], arrLoad[1]],
     }).then((data) => {
-      console.log("Upload success: " + data);
+      console.log("Upload success: " + [arrLoad]);
     });
   }
 

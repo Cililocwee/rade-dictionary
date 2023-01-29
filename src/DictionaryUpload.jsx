@@ -15,7 +15,7 @@ export default function DictionaryUpload() {
         id: doc.id,
       }));
       setCurrentDb(newData);
-      console.log(newData);
+      // console.log(newData);
     });
   }
 
@@ -31,6 +31,7 @@ export default function DictionaryUpload() {
         console.log(`backup ${id}: successful`);
       });
     }
+    console.log("BACKUP SUCCESSFUL");
   }
 
   async function handleBackup() {
