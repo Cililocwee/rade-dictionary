@@ -6,10 +6,6 @@ export default function Navbar() {
   return (
     <div id="navbar">
       <Link to="/">
-        <li>Home</li>
-      </Link>
-
-      <Link to="/dictionary">
         <li>Dictionary</li>
       </Link>
 

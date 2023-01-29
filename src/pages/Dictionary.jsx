@@ -3,12 +3,36 @@ import ResultBox from "../components/ResultBox";
 import "./pages.css";
 import { uuidv4 } from "@firebase/util";
 import TableHead from "../components/TableHead";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../firebase";
+import { useEffect } from "react";
 
-export default function Dictionary({ dictionary }) {
+export default function Dictionary() {
   const [matches, setMatches] = useState([]);
   const [searchWord, setSearchWord] = useState("");
+  const [dictionary, setDictionary] = useState();
 
-  // TODO Can't search for I
+  async function fetchDictionaryDatabase() {
+    await getDocs(collection(db, "live_dictionary")).then((querySnapshot) => {
+      const newData = querySnapshot.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }));
+      setDictionary(newData);
+    });
+  }
+
+  useEffect(() => {
+    fetchDictionaryDatabase();
+    let date = new Date();
+    console.log(
+      "Fetched at " +
+        date.toLocaleTimeString() +
+        " on " +
+        date.toLocaleDateString()
+    );
+  }, []);
+
   // TODO Returns repeat entries (redundant)
   function handleDispatchSearch() {
     let englishMatches = [];

@@ -11,9 +11,9 @@ import { useEffect } from "react";
 export default function LogIn() {
   const [activeUser, setActiveUser] = useState(getAuth());
 
-  useEffect(() => {
-    console.log(getAuth().currentUser?.displayName);
-  }, []);
+  // useEffect(() => {
+  //   console.log(getAuth().currentUser?.displayName);
+  // }, []);
 
   //!! Something is going on with login where the login error keeps firing
   function logIn() {
