@@ -6,7 +6,7 @@ import { Route, Routes } from "react-router-dom";
 import Dictionary from "./pages/Dictionary";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
-import DictionaryUpload from "./DictionaryUpload";
+import DictionaryUpload from "./pages/DictionaryUpload";
 function App() {
   return (
     <div className="App">

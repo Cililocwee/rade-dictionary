@@ -59,9 +59,7 @@ export default function LogIn() {
   }
 
   return (
-    <div>
-      <p>Please sign in to add new entries:</p>
-
+    <div id="login-buttons">
       <button onClick={logIn}>Log In</button>
       <button onClick={logOut}>Log Out</button>
     </div>

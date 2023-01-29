@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { uuidv4 } from "@firebase/util";
 import { collection, doc, getDocs, setDoc } from "firebase/firestore";
-import { db } from "./firebase";
-import SpreadsheetParser from "./components/SpreadsheetParser";
-import LogIn from "./components/LogIn";
+import { db } from "../firebase";
+import SpreadsheetParser from "../components/SpreadsheetParser";
+import LogIn from "../components/LogIn";
 
 export default function DictionaryUpload() {
   const [currentDb, setCurrentDb] = useState();
@@ -41,16 +41,19 @@ export default function DictionaryUpload() {
 
   return (
     <main id="upload">
-      <p>Step 1: Log in</p>
-      <LogIn />
-      <br />
-      <br />
-      <p>Step 2: Back up live dictionary</p>
-      <button onClick={handleBackup}>Backup</button>
-      <br />
-      <br />
-      <p>Step 3: Upload new dictionary</p>
-      <SpreadsheetParser />
+      <div id="step-one">
+        <p>Step 1: Log in</p>
+        <LogIn />
+      </div>
+
+      <div id="step-two">
+        <p>Step 2: Back up live dictionary</p>
+        <button onClick={handleBackup}>Backup</button>
+      </div>
+      <div id="step-three">
+        <p>Step 3: Upload new dictionary</p>
+        <SpreadsheetParser />
+      </div>
     </main>
   );
 }

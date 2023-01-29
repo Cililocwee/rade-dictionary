@@ -1,8 +1,9 @@
 :root {
-  font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
+  /* font-family: Inter, Avenir, Helvetica, Arial, sans-serif; */
+  font-family: "Playfair Display", Inter, Avenir, Helvetica, Arial, sans-serif;
   font-size: 16px;
   line-height: 24px;
-  font-weight: 400;
+  font-weight: 500;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -11,6 +12,15 @@
   -webkit-text-size-adjust: 100%;
 
   --background-color: lightgray;
+
+  --purple: #423250;
+  --orange: #ff7448;
+  --gray: #edf0f8;
+
+  --font-dark: #53485f;
+  --font-dark-gray: #abaeb9;
+  --font-light: #ffffff;
+  --font-light-gray: #b8afc2;
 }
 
 html,
@@ -29,5 +39,5 @@ body {
 }
 
 body {
-  background-color: var(--background-color);
+  background-color: var(--gray);
 }

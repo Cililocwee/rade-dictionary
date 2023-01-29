@@ -1,20 +1,23 @@
 #navbar {
   display: flex;
-  /* flex-direction: column; */
+  justify-content: space-evenly;
   position: fixed;
   width: fit-content;
+  min-width: 350px;
   bottom: 0;
   border-radius: 6px 6px 0 0;
-  background: white;
+  background-color: var(--purple);
   filter: drop-shadow(2px 2px 2px);
   list-style: none;
   padding: 15px;
   gap: 10px;
 }
 
-#navbar li:hover {
-  color: darkgray;
-  cursor: pointer;
-  margin: 0;
-  padding: 0;
+#navbar a {
+  color: var(--font-light);
+  text-decoration: none;
+}
+
+#navbar a:hover {
+  color: var(--font-dark-gray);
 }

@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import ResultBox from "../components/ResultBox";
 import "./pages.css";
 import { uuidv4 } from "@firebase/util";
-import TableHead from "../components/TableHead";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../firebase";
 import { useEffect } from "react";
@@ -54,7 +53,6 @@ export default function Dictionary() {
     });
 
     setMatches([...englishMatches, ...radeMatches]);
-    setSearchWord("");
   }
 
   function handleChange(e) {
@@ -64,6 +62,7 @@ export default function Dictionary() {
   function commenceSearch(e) {
     if (e.key === "Enter") {
       handleDispatchSearch();
+      setSearchWord("");
     }
   }
 
@@ -78,9 +77,11 @@ export default function Dictionary() {
           value={searchWord}
           onKeyDown={commenceSearch}
         />
-        <button onClick={handleDispatchSearch}>Search</button>
+        <button onClick={handleDispatchSearch} id="search-button">
+          Search
+        </button>
       </div>
-      {matches.length > 0 ? <TableHead /> : <></>}
+
       {matches.map((heading) => (
         <ResultBox
           searchWord={heading.word[0]}
