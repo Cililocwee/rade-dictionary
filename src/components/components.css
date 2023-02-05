@@ -120,3 +120,17 @@
   box-shadow: rgba(0, 0, 0, 0.06) 0 2px 4px;
   transform: translateY(0);
 }
+
+/** RADE BAR**/
+#rade-keys {
+  display: flex;
+  width: 100%;
+  justify-content: space-evenly;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+#rade-keys button {
+  cursor: pointer;
+}

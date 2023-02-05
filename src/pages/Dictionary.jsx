@@ -5,6 +5,7 @@ import { uuidv4 } from "@firebase/util";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../firebase";
 import { useEffect } from "react";
+import RadeBar from "../components/RadeBar";
 
 export default function Dictionary() {
   const [matches, setMatches] = useState([]);
@@ -66,6 +67,10 @@ export default function Dictionary() {
     }
   }
 
+  function handleRadeLetters(letter) {
+    setSearchWord(searchWord + letter.toLowerCase());
+  }
+
   return (
     <div id="dictionary" className="page">
       <div id="searchbox">
@@ -77,6 +82,7 @@ export default function Dictionary() {
           value={searchWord}
           onKeyDown={commenceSearch}
         />
+        <RadeBar contribute={handleRadeLetters} />
         <button onClick={handleDispatchSearch} id="search-button">
           Search
         </button>
